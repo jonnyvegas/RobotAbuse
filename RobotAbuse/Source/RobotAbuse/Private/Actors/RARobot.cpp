@@ -7,6 +7,9 @@
 #include "Components/WidgetComponent.h"
 #include "Components/SceneComponent.h"
 #include "Components/WidgetComponent.h"
+#include "../../../../../../../Source/Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "Interfaces/RAPCInterface.h"
+#include "Interfaces/RAWidgetStatusInterface.h"
 
 // Sets default values
 ARARobot::ARARobot()
@@ -20,6 +23,7 @@ ARARobot::ARARobot()
 	HighlightInt = 2;
 
 	BindMouseEvents();
+	bArmRConnected = true;
 }
 
 // Called when the game starts or when spawned
@@ -139,13 +143,20 @@ bool ARARobot::SetIsBeingHeld_Implementation(bool bHeld)
 
 void ARARobot::ConnectOrDisconnectArmR(bool bConnect)
 {
+	
 	if (bConnect)
 	{
 		ArmRMeshComp->SetRelativeLocation(FVector(FVector::ZeroVector));
-	}
+	}	
 	else
 	{
 		ArmRMeshComp->SetRelativeLocation(FVector(AmtToMoveArm * -1.f, 0.f, 0.f));
+	}
+
+	UUserWidget* WidgetObj = StatusWidgetComp->GetUserWidgetObject();
+	if (WidgetObj->Implements<URAWidgetStatusInterface>())
+	{
+		IRAWidgetStatusInterface::Execute_SetAttachedOrDetached(WidgetObj, bConnect);
 	}
 }
 
@@ -153,6 +164,11 @@ void ARARobot::BindMouseEvents()
 {
 	ArmRMeshComp->OnBeginCursorOver.AddDynamic(this, &ARARobot::OnArmRMouseOver);
 	ArmRMeshComp->OnEndCursorOver.AddDynamic(this, &ARARobot::OnArmRMouseOverEnd);
+
+	ArmRMeshComp->OnClicked.AddDynamic(this, &ARARobot::OnArmRClicked);
+
+	TorsoMeshComp->OnBeginCursorOver.AddDynamic(this, &ARARobot::OnTorsoMouseOver);
+	TorsoMeshComp->OnEndCursorOver.AddDynamic(this, &ARARobot::OnTorsoMouseOverEnd);
 }
 
 void ARARobot::OnArmRMouseOver(UPrimitiveComponent* TouchedComp)
@@ -168,5 +184,40 @@ void ARARobot::OnArmRMouseOverEnd(UPrimitiveComponent* TouchedComp)
 	if (this->Implements<URAOutlineInterface>())
 	{
 		IRAOutlineInterface::Execute_SetOutlineOnOrOff(this, false, ArmRMeshComp);
+	}
+}
+
+void ARARobot::OnArmRClicked(UPrimitiveComponent* Comp, const FKey ButtonPressed)
+{
+	bArmRConnected = !bArmRConnected;
+	ConnectOrDisconnectArmR(bArmRConnected);
+}
+
+void ARARobot::OnTorsoMouseOver(UPrimitiveComponent* TouchedComp)
+{
+	if (this->Implements<URAOutlineInterface>())
+	{
+		for (UPrimitiveComponent* Comp : ComponentsToOutline)
+		{
+			IRAOutlineInterface::Execute_SetOutlineOnOrOff(this, true, Comp);
+		}
+		
+	}
+	APlayerController* PCRef = UGameplayStatics::GetPlayerController(this, 0);
+	if (PCRef && PCRef->Implements<URAPCInterface>())
+	{
+		IRAPCInterface::Execute_SetRobotActorRef(PCRef, this);
+	}
+}
+
+void ARARobot::OnTorsoMouseOverEnd(UPrimitiveComponent* TouchedComp)
+{
+	if (this->Implements<URAOutlineInterface>())
+	{
+		for (UPrimitiveComponent* Comp : ComponentsToOutline)
+		{
+			IRAOutlineInterface::Execute_SetOutlineOnOrOff(this, false, Comp);
+		}
+
 	}
 }

@@ -130,4 +130,16 @@ private:
 
 	UFUNCTION()
 	void OnArmRMouseOverEnd(UPrimitiveComponent* TouchedComp);
+
+	UFUNCTION()
+	void OnArmRClicked(UPrimitiveComponent* Comp, const FKey ButtonPressed);
+
+	UFUNCTION()
+	void OnTorsoMouseOver(UPrimitiveComponent* TouchedComp);
+
+	UFUNCTION()
+	void OnTorsoMouseOverEnd(UPrimitiveComponent* TouchedComp);
+
+	UPROPERTY()
+	bool bArmRConnected = true;
 };
