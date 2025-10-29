@@ -18,7 +18,12 @@ void ARAPlayerController::BeginPlay()
 	// Double check we don't crash due to null ref.
 	if (GameSettings)
 	{
+		// Set the settings and apply them (forgetting to apply results in no settings changed).
 		GameSettings->SetFullscreenMode(EWindowMode::Windowed);
+		GameSettings->SetScreenResolution(FIntPoint(WindowResolutionX, WindowResolutionY));
+		GameSettings->ApplyResolutionSettings(false);
+		
+		//UEnhancedInputLocalPlayerSubsystem::AddMappingContext()
 	}
 	else
 	{
@@ -26,4 +31,14 @@ void ARAPlayerController::BeginPlay()
 	}
 
 	BPBeginPlayPost();
+}
+
+class AActor* ARAPlayerController::GetRobotActorRef_Implementation()
+{
+	return RobotActorRef;
+}
+
+void ARAPlayerController::SetRobotActorRef_Implementation(AActor* NewRef)
+{
+	RobotActorRef = NewRef;
 }
