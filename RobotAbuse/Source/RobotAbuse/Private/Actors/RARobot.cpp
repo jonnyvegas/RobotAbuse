@@ -18,12 +18,15 @@ ARARobot::ARARobot()
 	SetupMeshOutlineArray();
 	
 	HighlightInt = 2;
+
+	BindMouseEvents();
 }
 
 // Called when the game starts or when spawned
 void ARARobot::BeginPlay()
 {
 	Super::BeginPlay();
+	BindMouseEvents();
 	
 }
 
@@ -96,6 +99,8 @@ void ARARobot::InitializeAndAttachComponents()
 
 void ARARobot::SetupMeshOutlineArray()
 {
+	// In case this gets called multiple times, only want one copy.
+	ComponentsToOutline.Empty();
 	ComponentsToOutline.Add(HeadMeshComp);
 	ComponentsToOutline.Add(LegRMeshComp);
 	ComponentsToOutline.Add(LegLMeshComp);
@@ -108,17 +113,14 @@ void ARARobot::SetupMeshOutlineArray()
 
 bool ARARobot::SetOutlineOnOrOff_Implementation(bool bOn, class UPrimitiveComponent* Comp)
 {
-	for (UPrimitiveComponent* MeshComp : ComponentsToOutline)
+	Comp->SetRenderCustomDepth(bOn);
+	if (bOn)
 	{
-		MeshComp->SetRenderCustomDepth(bOn);
-		if (bOn)
-		{
-			MeshComp->SetCustomDepthStencilValue(HighlightInt);
-		}
-		else
-		{
-			MeshComp->SetCustomDepthStencilValue(0);
-		}
+		Comp->SetCustomDepthStencilValue(HighlightInt);
+	}
+	else
+	{
+		Comp->SetCustomDepthStencilValue(0);
 	}
 	return false;
 }
@@ -144,5 +146,27 @@ void ARARobot::ConnectOrDisconnectArmR(bool bConnect)
 	else
 	{
 		ArmRMeshComp->SetRelativeLocation(FVector(AmtToMoveArm * -1.f, 0.f, 0.f));
+	}
+}
+
+void ARARobot::BindMouseEvents()
+{
+	ArmRMeshComp->OnBeginCursorOver.AddDynamic(this, &ARARobot::OnArmRMouseOver);
+	ArmRMeshComp->OnEndCursorOver.AddDynamic(this, &ARARobot::OnArmRMouseOverEnd);
+}
+
+void ARARobot::OnArmRMouseOver(UPrimitiveComponent* TouchedComp)
+{
+	if (this->Implements<URAOutlineInterface>())
+	{
+		IRAOutlineInterface::Execute_SetOutlineOnOrOff(this, true, ArmRMeshComp);
+	}
+}
+
+void ARARobot::OnArmRMouseOverEnd(UPrimitiveComponent* TouchedComp)
+{
+	if (this->Implements<URAOutlineInterface>())
+	{
+		IRAOutlineInterface::Execute_SetOutlineOnOrOff(this, false, ArmRMeshComp);
 	}
 }

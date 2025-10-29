@@ -122,5 +122,12 @@ private:
 	UFUNCTION()
 	void ConnectOrDisconnectArmR(bool bConnect);
 
-	
+	UFUNCTION()
+	void BindMouseEvents();
+
+	UFUNCTION()
+	void OnArmRMouseOver(UPrimitiveComponent* TouchedComp);
+
+	UFUNCTION()
+	void OnArmRMouseOverEnd(UPrimitiveComponent* TouchedComp);
 };
