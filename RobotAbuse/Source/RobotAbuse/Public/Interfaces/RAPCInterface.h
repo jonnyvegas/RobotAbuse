@@ -28,7 +28,7 @@ public:
 	virtual class AActor* GetRobotActorRef_Implementation() { return nullptr; }
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	void SetRobotActorRef(AActor* NewRef);
-	virtual void SetRobotActorRef_Implementation(AActor* NewRef) {  }
+	bool SetRobotActorRef(AActor* NewRef);
+	virtual bool SetRobotActorRef_Implementation(AActor* NewRef) { return false; }
 
 };

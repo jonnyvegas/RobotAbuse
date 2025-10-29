@@ -34,7 +34,7 @@ public:
 //INTERFACE FUNCTIONS
 
 	class AActor* GetRobotActorRef_Implementation() override;
-	void SetRobotActorRef_Implementation(AActor* NewRef) override;
+	bool SetRobotActorRef_Implementation(AActor* NewRef) override;
 	
 private:
 

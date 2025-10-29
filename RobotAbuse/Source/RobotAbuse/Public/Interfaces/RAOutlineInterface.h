@@ -4,11 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
-#include "RARobotInterface.generated.h"
+#include "RAOutlineInterface.generated.h"
 
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
-class URARobotInterface : public UInterface
+class URAOutlineInterface : public UInterface
 {
 	GENERATED_BODY()
 };
@@ -16,18 +16,15 @@ class URARobotInterface : public UInterface
 /**
  * 
  */
-class ROBOTABUSE_API IRARobotInterface
+class ROBOTABUSE_API IRAOutlineInterface
 {
 	GENERATED_BODY()
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 
+	// Turns the outline on or off based on bOn.
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	bool IsBeingHeld();
-	virtual bool IsBeingHeld_Implementation() { return false; }
-
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	bool SetIsBeingHeld(bool bHeld);
-	virtual bool SetIsBeingHeld_Implementation(bool bHeld) { return false; }
+	bool SetOutlineOnOrOff(bool bOn, class UPrimitiveComponent* Comp);
+	virtual bool SetOutlineOnOrOff_Implementation(bool bOn, UPrimitiveComponent* Comp) { return false; }
 };

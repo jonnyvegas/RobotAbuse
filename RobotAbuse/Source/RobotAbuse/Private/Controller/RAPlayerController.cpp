@@ -38,7 +38,8 @@ class AActor* ARAPlayerController::GetRobotActorRef_Implementation()
 	return RobotActorRef;
 }
 
-void ARAPlayerController::SetRobotActorRef_Implementation(AActor* NewRef)
+bool ARAPlayerController::SetRobotActorRef_Implementation(AActor* NewRef)
 {
 	RobotActorRef = NewRef;
+	return false;
 }
