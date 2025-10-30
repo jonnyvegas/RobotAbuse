@@ -175,15 +175,30 @@ void ARARobot::ConnectOrDisconnectArmR(bool bConnect)
 
 void ARARobot::BindMouseEvents()
 {
-	ArmRMeshComp->OnBeginCursorOver.AddUniqueDynamic(this, &ARARobot::OnArmRMouseOver);
-	ArmRMeshComp->OnEndCursorOver.AddUniqueDynamic(this, &ARARobot::OnArmRMouseOverEnd);
-
-	ArmRMeshComp->OnClicked.AddUniqueDynamic(this, &ARARobot::OnArmRClicked);
-
-	TorsoMeshComp->OnBeginCursorOver.AddUniqueDynamic(this, &ARARobot::OnTorsoMouseOver);
-	TorsoMeshComp->OnEndCursorOver.AddUniqueDynamic(this, &ARARobot::OnTorsoMouseOverEnd);
-
-	TorsoMeshComp->OnClicked.AddUniqueDynamic(this, &ARARobot::OnTorsoClicked);
+	if(!ArmRMeshComp->OnBeginCursorOver.IsBound())
+	{
+		ArmRMeshComp->OnBeginCursorOver.AddDynamic(this, &ARARobot::OnArmRMouseOver);
+	}
+	if (!ArmRMeshComp->OnEndCursorOver.IsBound())
+	{
+		ArmRMeshComp->OnEndCursorOver.AddDynamic(this, &ARARobot::OnArmRMouseOverEnd);
+	}
+	if (!ArmRMeshComp->OnClicked.IsBound())
+	{
+		ArmRMeshComp->OnClicked.AddDynamic(this, &ARARobot::OnArmRClicked);
+	}
+	if (!TorsoMeshComp->OnBeginCursorOver.IsBound())
+	{
+		TorsoMeshComp->OnBeginCursorOver.AddDynamic(this, &ARARobot::OnTorsoMouseOver);
+	}
+	if (!TorsoMeshComp->OnEndCursorOver.IsBound())
+	{
+		TorsoMeshComp->OnEndCursorOver.AddDynamic(this, &ARARobot::OnTorsoMouseOverEnd);
+	}
+	if (!TorsoMeshComp->OnClicked.IsBound())
+	{
+		TorsoMeshComp->OnClicked.AddDynamic(this, &ARARobot::OnTorsoClicked);
+	}
 }
 
 void ARARobot::OnArmRMouseOver(UPrimitiveComponent* TouchedComp)
