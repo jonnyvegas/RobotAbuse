@@ -3,6 +3,8 @@
 
 #include "Controller/RAPlayerController.h"
 #include "GameFramework/GameUserSettings.h"
+#include "../../../../../../../Source/Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "../../../../../../../Plugins/EnhancedInput/Source/EnhancedInput/Public/EnhancedInputSubsystems.h"
 
 ARAPlayerController::ARAPlayerController()
 {
@@ -22,8 +24,11 @@ void ARAPlayerController::BeginPlay()
 		GameSettings->SetFullscreenMode(EWindowMode::Windowed);
 		GameSettings->SetScreenResolution(FIntPoint(WindowResolutionX, WindowResolutionY));
 		GameSettings->ApplyResolutionSettings(false);
-		
-		//UEnhancedInputLocalPlayerSubsystem::AddMappingContext()
+		APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0);
+		ULocalPlayer* LocalPlayer = PC->GetLocalPlayer();
+		UEnhancedInputLocalPlayerSubsystem* InputSystem = LocalPlayer->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
+		InputSystem->AddMappingContext(InputMC, 0);
+		InputSystem->
 	}
 	else
 	{

@@ -49,4 +49,11 @@ private:
 	// Height of the window when building game.
 	UPROPERTY(EditDefaultsOnly, Category="Window Resolution")
 	int WindowResolutionY;
+
+	UPROPERTY(EditDefaultsOnly)
+	UInputMappingContext* InputMC;
+
+	UPROPERTY(EditDefaultsOnly)
+	class UInputAction* MouseClickAction;
+
 };
