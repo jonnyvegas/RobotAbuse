@@ -5,6 +5,8 @@
 #include "GameFramework/GameUserSettings.h"
 #include "../../../../../../../Source/Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "../../../../../../../Plugins/EnhancedInput/Source/EnhancedInput/Public/EnhancedInputSubsystems.h"
+#include "Interfaces/RARobotInterface.h"
+#include "../../../../../../../Source/Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h"
 
 ARAPlayerController::ARAPlayerController()
 {
@@ -36,12 +38,37 @@ void ARAPlayerController::BeginPlay()
 
 void ARAPlayerController::SetupInputComponent()
 {
+	Super::SetupInputComponent();
 	APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0);
 	ULocalPlayer* LocalPlayer = PC->GetLocalPlayer();
 	UEnhancedInputLocalPlayerSubsystem* InputSystem = LocalPlayer->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
 
 	InputSystem->ClearAllMappings();
 	InputSystem->AddMappingContext(InputMC, 0);
+	PC->InputComponent->BindAction("LeftMouseButton", IE_Released, this, &ARAPlayerController::LMBReleased);
+	PC->InputComponent->BindAction("QuitGame", IE_Pressed, this, &ARAPlayerController::QuitGame);
+}
+
+void ARAPlayerController::LMBReleased()
+{
+	if (this->Implements<URAPCInterface>())
+	{
+		if (IRAPCInterface::Execute_GetRobotActorRef(this) && IRAPCInterface::Execute_GetRobotActorRef(this)->Implements<URARobotInterface>())
+		{
+			if (IRARobotInterface::Execute_IsBeingHeld(IRAPCInterface::Execute_GetRobotActorRef(this)))
+			{
+				IRARobotInterface::Execute_SetIsBeingHeld(IRAPCInterface::Execute_GetRobotActorRef(this), false);
+			}
+		}
+		IRAPCInterface::Execute_SetRobotActorRef(this, nullptr);
+	}
+	SetIgnoreLookInput(false);
+}
+
+void ARAPlayerController::QuitGame()
+{
+	TEnumAsByte<EQuitPreference::Type> QuitPref = EQuitPreference::Quit;
+	UKismetSystemLibrary::QuitGame(this, this, QuitPref, false);
 }
 
 class AActor* ARAPlayerController::GetRobotActorRef_Implementation()

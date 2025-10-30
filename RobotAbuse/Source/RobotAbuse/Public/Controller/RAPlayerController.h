@@ -40,6 +40,12 @@ public:
 	
 private:
 
+	UFUNCTION()
+	void LMBReleased();
+
+	UFUNCTION()
+	void QuitGame();
+
 	// Reference to the RobotActor to use to call interfaces.
 	UPROPERTY()
 	AActor* RobotActorRef;
