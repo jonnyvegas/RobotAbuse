@@ -120,6 +120,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float TraceDistance;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float InterpSpeed;
+
 private:
 
 	UFUNCTION()
@@ -148,4 +151,25 @@ private:
 
 	UPROPERTY()
 	bool bArmRConnected = true;
+
+	UPROPERTY()
+	class APlayerController* ControllerRef;
+
+	UPROPERTY()
+	float MouseLocX;
+
+	UPROPERTY()
+	float MouseLocY;
+
+	UPROPERTY()
+	FVector WorldPos;
+
+	UPROPERTY()
+	FVector WorldDir;
+
+	UPROPERTY()
+	FVector TargetPos;
+
+	UPROPERTY()
+	FVector2D MousePos;
 };

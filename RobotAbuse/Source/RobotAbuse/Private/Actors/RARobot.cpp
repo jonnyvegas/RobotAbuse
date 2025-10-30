@@ -10,6 +10,9 @@
 #include "../../../../../../../Source/Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Interfaces/RAPCInterface.h"
 #include "Interfaces/RAWidgetStatusInterface.h"
+#include "../../../../../../../Source/Runtime/Engine/Classes/GameFramework/PlayerController.h"
+#include "../../../../../../../Source/Runtime/CoreUObject/Public/UObject/NoExportTypes.h"
+#include "../../../../../../../Source/Runtime/Engine/Classes/Kismet/KismetMathLibrary.h"
 
 // Sets default values
 ARARobot::ARARobot()
@@ -24,6 +27,7 @@ ARARobot::ARARobot()
 
 	BindMouseEvents();
 	bArmRConnected = true;
+	InterpSpeed = 10.f;
 }
 
 // Called when the game starts or when spawned
@@ -31,14 +35,22 @@ void ARARobot::BeginPlay()
 {
 	Super::BeginPlay();
 	BindMouseEvents();
-	
+	ControllerRef = UGameplayStatics::GetPlayerController(this, 0);
 }
 
 // Called every frame
 void ARARobot::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	
+	if (bIsBeingHeld && ControllerRef)
+	{
+		ControllerRef->GetMousePosition(MouseLocX, MouseLocY);
+		MousePos = FVector2D(MouseLocX, MouseLocY);
+		UGameplayStatics::DeprojectScreenToWorld(ControllerRef, MousePos, WorldPos, WorldDir);
+		TargetPos = (WorldPos + (WorldDir * TraceDistance));
+		SetActorLocation(FMath::VInterpTo(GetActorLocation(), TargetPos, DeltaTime, InterpSpeed), true);
+	}
 }
 
 void ARARobot::InitializeAndAttachComponents()
@@ -226,11 +238,12 @@ void ARARobot::OnTorsoMouseOverEnd(UPrimitiveComponent* TouchedComp)
 
 void ARARobot::OnTorsoClicked(UPrimitiveComponent* Comp, const FKey ButtonPressed)
 {
-	bIsBeingHeld = true;
-	APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0);
-	if (PC)
+	
+	ControllerRef = UGameplayStatics::GetPlayerController(this, 0);
+	if (ControllerRef)
 	{
-		TraceDistance = GetDistanceTo(PC->GetPawn());
-		PC->SetIgnoreLookInput(true);
+		TraceDistance = GetDistanceTo(ControllerRef->GetPawn());
+		ControllerRef->SetIgnoreLookInput(true);
 	}
+	bIsBeingHeld = true;
 }
