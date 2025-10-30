@@ -56,11 +56,11 @@ void ARARobot::Tick(float DeltaTime)
 
 void ARARobot::InitializeAndAttachComponents()
 {
-	RobotRootComp = CreateDefaultSubobject<USceneComponent>(TEXT("RobotRootComp"));
-	SetRootComponent(RobotRootComp);
+	//RobotRootComp = CreateDefaultSubobject<USceneComponent>(TEXT("RobotRootComp"));
+	//SetRootComponent(RobotRootComp);
 
 	CapsuleComp = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleComp"));
-	CapsuleComp->SetupAttachment(RobotRootComp);
+	SetRootComponent(CapsuleComp);
 
 	// Connect roots and widget to capsule.
 
@@ -175,15 +175,15 @@ void ARARobot::ConnectOrDisconnectArmR(bool bConnect)
 
 void ARARobot::BindMouseEvents()
 {
-	ArmRMeshComp->OnBeginCursorOver.AddDynamic(this, &ARARobot::OnArmRMouseOver);
-	ArmRMeshComp->OnEndCursorOver.AddDynamic(this, &ARARobot::OnArmRMouseOverEnd);
+	ArmRMeshComp->OnBeginCursorOver.AddUniqueDynamic(this, &ARARobot::OnArmRMouseOver);
+	ArmRMeshComp->OnEndCursorOver.AddUniqueDynamic(this, &ARARobot::OnArmRMouseOverEnd);
 
-	ArmRMeshComp->OnClicked.AddDynamic(this, &ARARobot::OnArmRClicked);
+	ArmRMeshComp->OnClicked.AddUniqueDynamic(this, &ARARobot::OnArmRClicked);
 
-	TorsoMeshComp->OnBeginCursorOver.AddDynamic(this, &ARARobot::OnTorsoMouseOver);
-	TorsoMeshComp->OnEndCursorOver.AddDynamic(this, &ARARobot::OnTorsoMouseOverEnd);
+	TorsoMeshComp->OnBeginCursorOver.AddUniqueDynamic(this, &ARARobot::OnTorsoMouseOver);
+	TorsoMeshComp->OnEndCursorOver.AddUniqueDynamic(this, &ARARobot::OnTorsoMouseOverEnd);
 
-	TorsoMeshComp->OnClicked.AddDynamic(this, &ARARobot::OnTorsoClicked);
+	TorsoMeshComp->OnClicked.AddUniqueDynamic(this, &ARARobot::OnTorsoClicked);
 }
 
 void ARARobot::OnArmRMouseOver(UPrimitiveComponent* TouchedComp)

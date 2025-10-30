@@ -5094,6 +5094,18 @@
 			"Type": "RequiredResource"
 		},
 		{
+			"Path": "$(EngineDir)/Plugins/Experimental/AsyncMessageSystem/Binaries/Win64/UnrealEditor-AsyncMessageSystem.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Experimental/AsyncMessageSystem/Binaries/Win64/UnrealEditor-AsyncMessageSystem.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Experimental/AsyncMessageSystem/Binaries/Win64/UnrealEditor.modules",
+			"Type": "RequiredResource"
+		},
+		{
 			"Path": "$(EngineDir)/Plugins/Experimental/AutomationUtils/Binaries/Win64/UnrealEditor-AutomationUtils.dll",
 			"Type": "DynamicLibrary"
 		},
@@ -7346,6 +7358,30 @@
 			"Type": "RequiredResource"
 		},
 		{
+			"Path": "$(EngineDir)/Plugins/Tests/AutomationDriverTests/Binaries/Win64/UnrealEditor-AutomationDriverTests.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Tests/AutomationDriverTests/Binaries/Win64/UnrealEditor-AutomationDriverTests.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Tests/AutomationDriverTests/Binaries/Win64/UnrealEditor.modules",
+			"Type": "RequiredResource"
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Tests/FunctionalTestingEditor/Binaries/Win64/UnrealEditor-FunctionalTestingEditor.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Tests/FunctionalTestingEditor/Binaries/Win64/UnrealEditor-FunctionalTestingEditor.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Tests/FunctionalTestingEditor/Binaries/Win64/UnrealEditor.modules",
+			"Type": "RequiredResource"
+		},
+		{
 			"Path": "$(EngineDir)/Plugins/Tests/InterchangeTests/Binaries/Win64/UnrealEditor-InterchangeTestEditor.dll",
 			"Type": "DynamicLibrary"
 		},
@@ -7363,6 +7399,18 @@
 		},
 		{
 			"Path": "$(EngineDir)/Plugins/Tests/InterchangeTests/Binaries/Win64/UnrealEditor.modules",
+			"Type": "RequiredResource"
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Tests/RuntimeTests/Binaries/Win64/UnrealEditor-RuntimeTests.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Tests/RuntimeTests/Binaries/Win64/UnrealEditor-RuntimeTests.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Tests/RuntimeTests/Binaries/Win64/UnrealEditor.modules",
 			"Type": "RequiredResource"
 		},
 		{
@@ -31584,6 +31632,10 @@
 			"Type": "UFS"
 		},
 		{
+			"Path": "$(EngineDir)/Plugins/Experimental/AsyncMessageSystem/AsyncMessageSystem.uplugin",
+			"Type": "UFS"
+		},
+		{
 			"Path": "$(EngineDir)/Plugins/Experimental/AutomationUtils/AutomationUtils.uplugin",
 			"Type": "UFS"
 		},
@@ -32024,7 +32076,19 @@
 			"Type": "UFS"
 		},
 		{
+			"Path": "$(EngineDir)/Plugins/Tests/AutomationDriverTests/AutomationDriverTests.uplugin",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Tests/FunctionalTestingEditor/FunctionalTestingEditor.uplugin",
+			"Type": "UFS"
+		},
+		{
 			"Path": "$(EngineDir)/Plugins/Tests/InterchangeTests/InterchangeTests.uplugin",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Tests/RuntimeTests/RuntimeTests.uplugin",
 			"Type": "UFS"
 		},
 		{
@@ -32076,9 +32140,11 @@
 		"ArchVisCharacter",
 		"AssetManagerEditor",
 		"AssetTags",
+		"AsyncMessageSystem",
 		"AudioCapture",
 		"AudioSynesthesia",
 		"AudioWidgets",
+		"AutomationDriverTests",
 		"AutomationUtils",
 		"AvfMedia",
 		"BackChannel",
@@ -32138,6 +32204,7 @@
 		"FastBuildController",
 		"Fracture",
 		"FullBodyIK",
+		"FunctionalTestingEditor",
 		"GLTFExporter",
 		"GameplayCameras",
 		"GameplayInsights",
@@ -32225,6 +32292,7 @@
 		"RigLogic",
 		"RigVM",
 		"RuntimeTelemetry",
+		"RuntimeTests",
 		"SequenceNavigator",
 		"SequencerAnimTools",
 		"SequencerScripting",
