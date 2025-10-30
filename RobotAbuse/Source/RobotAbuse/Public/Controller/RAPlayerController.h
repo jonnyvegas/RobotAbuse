@@ -31,6 +31,8 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category="Begin Play")
 	void BPBeginPlayPost();
 
+	virtual void SetupInputComponent() override;
+
 //INTERFACE FUNCTIONS
 
 	class AActor* GetRobotActorRef_Implementation() override;
@@ -50,9 +52,11 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category="Window Resolution")
 	int WindowResolutionY;
 
+	// Used for new input system.
 	UPROPERTY(EditDefaultsOnly)
 	class UInputMappingContext* InputMC;
 
+	// New input system WIP.
 	UPROPERTY(EditDefaultsOnly)
 	class UInputAction* MouseClickAction;
 

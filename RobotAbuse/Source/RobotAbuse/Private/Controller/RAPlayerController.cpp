@@ -24,9 +24,7 @@ void ARAPlayerController::BeginPlay()
 		GameSettings->SetFullscreenMode(EWindowMode::Windowed);
 		GameSettings->SetScreenResolution(FIntPoint(WindowResolutionX, WindowResolutionY));
 		GameSettings->ApplyResolutionSettings(false);
-		APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0);
-		ULocalPlayer* LocalPlayer = PC->GetLocalPlayer();
-		UEnhancedInputLocalPlayerSubsystem* InputSystem = LocalPlayer->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
+		
 	}
 	else
 	{
@@ -34,6 +32,16 @@ void ARAPlayerController::BeginPlay()
 	}
 
 	BPBeginPlayPost();
+}
+
+void ARAPlayerController::SetupInputComponent()
+{
+	APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0);
+	ULocalPlayer* LocalPlayer = PC->GetLocalPlayer();
+	UEnhancedInputLocalPlayerSubsystem* InputSystem = LocalPlayer->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
+
+	InputSystem->ClearAllMappings();
+	InputSystem->AddMappingContext(InputMC, 0);
 }
 
 class AActor* ARAPlayerController::GetRobotActorRef_Implementation()

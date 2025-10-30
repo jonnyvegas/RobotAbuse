@@ -51,6 +51,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bIsBeingHeld = false;
 
+
+	// Components for hierarchy
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UCapsuleComponent* CapsuleComp;
 
@@ -111,23 +114,29 @@ public:
 	// Which mesh components will we be outlining?
 	TArray<class UPrimitiveComponent*> ComponentsToOutline;
 
+	// Integer used for drawing stencils for a specific color outline using our PP Material.
 	UPROPERTY()
 	int32 HighlightInt = 2;
 
+	// How far are we moving the arm when clicking?
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float AmtToMoveArm;
 
+	// How far to trace when holding the robot.
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float TraceDistance;
 
+	// How quickly we should be interping from position to position.
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float InterpSpeed;
 
 private:
 
+	// Helper function to disconnect arm.
 	UFUNCTION()
 	void ConnectOrDisconnectArmR(bool bConnect);
 
+	// Mouse bindings.
 	UFUNCTION()
 	void BindMouseEvents();
 

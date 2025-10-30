@@ -47,6 +47,7 @@ void ARARobot::Tick(float DeltaTime)
 	{
 		ControllerRef->GetMousePosition(MouseLocX, MouseLocY);
 		MousePos = FVector2D(MouseLocX, MouseLocY);
+		// Mouse to world so we can get a ray from the mouse into the world and hold the Robot there.
 		UGameplayStatics::DeprojectScreenToWorld(ControllerRef, MousePos, WorldPos, WorldDir);
 		TargetPos = (WorldPos + (WorldDir * TraceDistance));
 		SetActorLocation(FMath::VInterpTo(GetActorLocation(), TargetPos, DeltaTime, InterpSpeed), true);
