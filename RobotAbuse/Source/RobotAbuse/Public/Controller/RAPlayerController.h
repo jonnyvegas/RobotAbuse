@@ -51,7 +51,7 @@ private:
 	int WindowResolutionY;
 
 	UPROPERTY(EditDefaultsOnly)
-	UInputMappingContext* InputMC;
+	class UInputMappingContext* InputMC;
 
 	UPROPERTY(EditDefaultsOnly)
 	class UInputAction* MouseClickAction;

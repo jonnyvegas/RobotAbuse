@@ -27,8 +27,6 @@ void ARAPlayerController::BeginPlay()
 		APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0);
 		ULocalPlayer* LocalPlayer = PC->GetLocalPlayer();
 		UEnhancedInputLocalPlayerSubsystem* InputSystem = LocalPlayer->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
-		InputSystem->AddMappingContext(InputMC, 0);
-		InputSystem->
 	}
 	else
 	{
