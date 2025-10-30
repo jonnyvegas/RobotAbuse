@@ -169,6 +169,8 @@ void ARARobot::BindMouseEvents()
 
 	TorsoMeshComp->OnBeginCursorOver.AddDynamic(this, &ARARobot::OnTorsoMouseOver);
 	TorsoMeshComp->OnEndCursorOver.AddDynamic(this, &ARARobot::OnTorsoMouseOverEnd);
+
+	TorsoMeshComp->OnClicked.AddDynamic(this, &ARARobot::OnTorsoClicked);
 }
 
 void ARARobot::OnArmRMouseOver(UPrimitiveComponent* TouchedComp)
@@ -219,5 +221,16 @@ void ARARobot::OnTorsoMouseOverEnd(UPrimitiveComponent* TouchedComp)
 			IRAOutlineInterface::Execute_SetOutlineOnOrOff(this, false, Comp);
 		}
 
+	}
+}
+
+void ARARobot::OnTorsoClicked(UPrimitiveComponent* Comp, const FKey ButtonPressed)
+{
+	bIsBeingHeld = true;
+	APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0);
+	if (PC)
+	{
+		TraceDistance = GetDistanceTo(PC->GetPawn());
+		PC->SetIgnoreLookInput(true);
 	}
 }

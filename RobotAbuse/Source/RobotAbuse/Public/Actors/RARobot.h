@@ -117,6 +117,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float AmtToMoveArm;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float TraceDistance;
+
 private:
 
 	UFUNCTION()
@@ -139,6 +142,9 @@ private:
 
 	UFUNCTION()
 	void OnTorsoMouseOverEnd(UPrimitiveComponent* TouchedComp);
+
+	UFUNCTION()
+	void OnTorsoClicked(UPrimitiveComponent* Comp, const FKey ButtonPressed);
 
 	UPROPERTY()
 	bool bArmRConnected = true;
